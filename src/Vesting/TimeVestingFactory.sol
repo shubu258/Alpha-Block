@@ -6,7 +6,6 @@ import "./vestingLogic/TimeVesting.sol";
 /// @notice Simple factory / forwarder for deploying Vesting schedules
 /// @dev Deploys a `Vesting` instance per schedule and allows forwarding claims
 contract TimeVestingFactory {
-
     struct Record {
         address beneficiary;
         uint256 allocation;
@@ -18,7 +17,7 @@ contract TimeVestingFactory {
     event VestingCreated(address indexed vesting);
 
     modifier onlyOwner() {
-        require(msg.sender == owner,"Not a Owner");
+        require(msg.sender == owner, "Not a Owner");
         _;
     }
 
@@ -34,17 +33,10 @@ contract TimeVestingFactory {
         uint256 _startTime,
         uint256 _stepTime,
         uint256 _stepCount
-
     ) public returns (address) {
         require(msg.sender == owner, "Not owner");
 
-        TimeVesting v = new TimeVesting(
-            _beneficiary,
-            _totalTokens,
-            _startTime,
-            _stepTime,
-            _stepCount
-        );
+        TimeVesting v = new TimeVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount);
 
         vestings.push(address(v));
         emit VestingCreated(address(v));
@@ -64,24 +56,53 @@ contract TimeVestingFactory {
         return vestings.length;
     }
 
-    function createInvestor(/* address token, */ address _beneficiary, uint256 _totalTokens, uint256 _startTime, uint256 _stepTime, uint256 _stepCount)
-        external onlyOwner returns (address)
-    { return createVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount); }
+    function createInvestor( /* address token, */
+        address _beneficiary,
+        uint256 _totalTokens,
+        uint256 _startTime,
+        uint256 _stepTime,
+        uint256 _stepCount
+    ) external onlyOwner returns (address) {
+        return createVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount);
+    }
 
-     function createDeveloper(/* address token, */ address _beneficiary, uint256 _totalTokens, uint256 _startTime, uint256 _stepTime, uint256 _stepCount)
-        external onlyOwner returns (address)
-    { return createVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount); }
+    function createDeveloper( /* address token, */
+        address _beneficiary,
+        uint256 _totalTokens,
+        uint256 _startTime,
+        uint256 _stepTime,
+        uint256 _stepCount
+    ) external onlyOwner returns (address) {
+        return createVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount);
+    }
 
-     function createMarketing(/* address token, */ address _beneficiary, uint256 _totalTokens, uint256 _startTime, uint256 _stepTime, uint256 _stepCount)
-        external onlyOwner returns (address)
-    { return createVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount); }
+    function createMarketing( /* address token, */
+        address _beneficiary,
+        uint256 _totalTokens,
+        uint256 _startTime,
+        uint256 _stepTime,
+        uint256 _stepCount
+    ) external onlyOwner returns (address) {
+        return createVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount);
+    }
 
-     function createCommunity(/* address token, */ address _beneficiary, uint256 _totalTokens, uint256 _startTime, uint256 _stepTime, uint256 _stepCount)
-        external onlyOwner returns (address)
-    { return createVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount); }
+    function createCommunity( /* address token, */
+        address _beneficiary,
+        uint256 _totalTokens,
+        uint256 _startTime,
+        uint256 _stepTime,
+        uint256 _stepCount
+    ) external onlyOwner returns (address) {
+        return createVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount);
+    }
 
-     function createReserve(/* address token, */ address _beneficiary, uint256 _totalTokens, uint256 _startTime, uint256 _stepTime, uint256 _stepCount)
-        external onlyOwner returns (address)
-    { return createVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount); }
-
+    function createReserve( /* address token, */
+        address _beneficiary,
+        uint256 _totalTokens,
+        uint256 _startTime,
+        uint256 _stepTime,
+        uint256 _stepCount
+    ) external onlyOwner returns (address) {
+        return createVesting(_beneficiary, _totalTokens, _startTime, _stepTime, _stepCount);
+    }
 }

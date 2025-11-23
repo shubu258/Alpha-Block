@@ -26,13 +26,7 @@ contract LinearVesting {
      * @dev Times are expected in seconds; for event-based set `eventWeights`
      * @param _beneficiary Recipient of vested tokens
      */
-    constructor(
-        address _beneficiary,
-        uint256 _totalTokens,
-        uint256 _startTime,
-        uint256 _duration
-
-    ) {
+    constructor(address _beneficiary, uint256 _totalTokens, uint256 _startTime, uint256 _duration) {
         require(_totalTokens != 0, "Total Tokens can't be zero");
         require(_startTime >= block.timestamp, "Start time should be greater then current block");
         require(_beneficiary != address(0), "Can't be zero");
@@ -41,7 +35,6 @@ contract LinearVesting {
         totalTokens = _totalTokens;
         startTime = _startTime;
         duration = _duration;
-
     }
 
     /// @notice Claim tokens unlocked by linear vesting since start
@@ -72,6 +65,4 @@ contract LinearVesting {
 
         return claimable;
     }
-
-   
 }

@@ -15,12 +15,9 @@ contract TimeVesting {
 
     uint256 releasedTokens;
 
-
     // step vesting
     uint256 stepTime;
     uint256 stepCount;
-
-
 
     /// @notice Emitted when tokens are claimed via a vesting function
     /// @param amount Number of tokens marked as released in this action
@@ -71,7 +68,6 @@ contract TimeVesting {
         // Step 3: Calculate unlocked tokens
         uint256 unlocked = (totalTokens * stepsPassed) / stepCount;
 
-
         // Step 5: Calculate claimable tokens
         uint256 claimable = unlocked - releasedTokens;
 
@@ -80,6 +76,4 @@ contract TimeVesting {
 
         return claimable;
     }
-
-
 }

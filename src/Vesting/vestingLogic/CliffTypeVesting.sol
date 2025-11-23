@@ -6,7 +6,6 @@ pragma solidity ^0.8.13;
 /// @dev Store-only contract for vesting parameters and release accounting; call claim
 /// @dev functions to compute and record claimable amounts. Times in seconds.
 contract VestingCliff {
-
     address beneficiary;
     uint256 totalTokens;
     uint256 vestingTime;
@@ -45,9 +44,7 @@ contract VestingCliff {
         startTime = _startTime;
 
         cliffMonth = _cliffTime;
-
     }
-
 
     /// @notice Claim tokens after an initial cliff followed by linear vesting
     /// @dev No tokens claimable before cliff end; after cliff uses vestingTime
@@ -76,5 +73,4 @@ contract VestingCliff {
 
         return claimable;
     }
-
 }
