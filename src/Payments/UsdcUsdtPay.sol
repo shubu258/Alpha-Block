@@ -43,9 +43,29 @@ contract UsdcUsdtPay {
     function buyTokenNative(uint256 tokenAmount, uint256 tokenDecimals, address nativeCurrency) external pure returns(uint256){
         require(tokenAmount != 0, "Token Amount should not be zero");
 
-        Aggre
+        address nativeUsdFeed = AggregatorV3Interface(nativeCurrency);
 
+        ( uint80 roundId,int256 price, uint256 updatedAt, uint80 answeredInRound ) = nativeUsdFeed.latestRoundData();
 
+        require(price != 0, "price canot be zero");
+        require(answeredInRound >= roundId, " Not good ");
+
+        
+        uint8 feedDecimals = nativeUsdFeed.decimals();
+        if (feedDecimals > 18) revert PublicSale__InvalidDecimals();
+
+        uint256 normalizedPrice;
+        if (feedDecimals <= 18) {
+            normalizedPrice = uint256(price) * (10 ** (18 - feedDecimals));
+        } else {
+            // This shouldn't happen with the require above, but defensive programming
+            normalizedPrice = uint256(price) / (10 ** (feedDecimals - 18));
+        }
+
+        if (normalizedPrice == 0) revert PublicSale__PriceInvalid();
+        return (tokenAmount * 1e18) / normalizedPrice;
     }
+
+    
 
 }
