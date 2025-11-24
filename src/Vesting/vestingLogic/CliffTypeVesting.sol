@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import "../Interface/ICliffTypeVesting.sol";
+
+
 /// @title Vesting
 /// @notice Implements multiple vesting strategies (linear, cliff, step, event-based)
 /// @dev Store-only contract for vesting parameters and release accounting; call claim
 /// @dev functions to compute and record claimable amounts. Times in seconds.
-contract VestingCliff {
+contract CliffTypeVesting is ICliffTypeVesting{
     address beneficiary;
     uint256 totalTokens;
     uint256 vestingTime;

@@ -6,6 +6,9 @@ import "./vestingLogic/CliffTypeVesting.sol";
 /// @notice Simple factory / forwarder for deploying Vesting schedules
 /// @dev Deploys a `Vesting` instance per schedule and allows forwarding claims
 contract CliffVestingFactory {
+    /// @notice Record of cliff vesting allocation details
+    /// @param beneficiary Address receiving vested tokens
+    /// @param allocation Total token amount allocated
     struct Record {
         address beneficiary;
         uint256 allocation;
@@ -21,12 +24,18 @@ contract CliffVestingFactory {
         _;
     }
 
+    /// @notice Initialize factory and set deployer as owner
     constructor() {
         owner = msg.sender;
     }
 
-    /// @notice Deploy a new Vesting contract with the provided schedule params
-    /// @dev Returns the deployed Vesting contract address
+    /// @notice Deploy a new CliffVesting contract with the provided schedule params
+    /// @param _beneficiary Address that will receive vested tokens
+    /// @param _totalTokens Total amount of tokens to vest
+    /// @param _vestingTime Total vesting duration in seconds (including cliff)
+    /// @param _startTime Unix timestamp when vesting begins
+    /// @param _cliffTime Cliff duration in seconds before any tokens unlock
+    /// @return Address of the deployed VestingCliff contract
     function createVesting(
         address _beneficiary,
         uint256 _totalTokens,
@@ -56,6 +65,13 @@ contract CliffVestingFactory {
         return vestings.length;
     }
 
+    /// @notice Deploy a CliffVesting contract for investor category
+    /// @param _beneficiary Investor address receiving vested tokens
+    /// @param _totalTokens Total tokens allocated to investor
+    /// @param _vestingTime Total vesting duration in seconds
+    /// @param _startTime Vesting start timestamp
+    /// @param _cliffTime Cliff period in seconds
+    /// @return Address of the deployed vesting contract
     function createInvestor( /*address token */
         address _beneficiary,
         uint256 _totalTokens,
@@ -66,6 +82,13 @@ contract CliffVestingFactory {
         return createVesting(_beneficiary, _totalTokens, _vestingTime, _startTime, _cliffTime);
     }
 
+    /// @notice Deploy a CliffVesting contract for developer category
+    /// @param _beneficiary Developer address receiving vested tokens
+    /// @param _totalTokens Total tokens allocated to developer
+    /// @param _vestingTime Total vesting duration in seconds
+    /// @param _startTime Vesting start timestamp
+    /// @param _cliffTime Cliff period in seconds
+    /// @return Address of the deployed vesting contract
     function createDeveloper( /*address token */
         address _beneficiary,
         uint256 _totalTokens,
@@ -76,6 +99,13 @@ contract CliffVestingFactory {
         return createVesting(_beneficiary, _totalTokens, _vestingTime, _startTime, _cliffTime);
     }
 
+    /// @notice Deploy a CliffVesting contract for marketing category
+    /// @param _beneficiary Marketing address receiving vested tokens
+    /// @param _totalTokens Total tokens allocated to marketing
+    /// @param _vestingTime Total vesting duration in seconds
+    /// @param _startTime Vesting start timestamp
+    /// @param _cliffTime Cliff period in seconds
+    /// @return Address of the deployed vesting contract
     function createMarketing( /*address token */
         address _beneficiary,
         uint256 _totalTokens,
@@ -86,6 +116,13 @@ contract CliffVestingFactory {
         return createVesting(_beneficiary, _totalTokens, _vestingTime, _startTime, _cliffTime);
     }
 
+    /// @notice Deploy a CliffVesting contract for community category
+    /// @param _beneficiary Community address receiving vested tokens
+    /// @param _totalTokens Total tokens allocated to community
+    /// @param _vestingTime Total vesting duration in seconds
+    /// @param _startTime Vesting start timestamp
+    /// @param _cliffTime Cliff period in seconds
+    /// @return Address of the deployed vesting contract
     function createCommunity( /*address token */
         address _beneficiary,
         uint256 _totalTokens,
@@ -96,6 +133,13 @@ contract CliffVestingFactory {
         return createVesting(_beneficiary, _totalTokens, _vestingTime, _startTime, _cliffTime);
     }
 
+    /// @notice Deploy a CliffVesting contract for reserve category
+    /// @param _beneficiary Reserve address receiving vested tokens
+    /// @param _totalTokens Total tokens allocated to reserve
+    /// @param _vestingTime Total vesting duration in seconds
+    /// @param _startTime Vesting start timestamp
+    /// @param _cliffTime Cliff period in seconds
+    /// @return Address of the deployed vesting contract
     function createReserve( /*address token */
         address _beneficiary,
         uint256 _totalTokens,
