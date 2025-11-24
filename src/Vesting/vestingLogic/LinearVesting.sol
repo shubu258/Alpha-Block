@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "../Interface/ILinearVesting.sol"
+import "src/Interface/ILinearVesting.sol";
 
 
 /// @title Vesting

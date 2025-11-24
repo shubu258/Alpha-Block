@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "../Interface/ITimeVesting.sol"
+import "src/Interface/ITimeVesting.sol";
 
 /// @title Vesting
 /// @notice Implements multiple vesting strategies (linear, cliff, step, event-based)

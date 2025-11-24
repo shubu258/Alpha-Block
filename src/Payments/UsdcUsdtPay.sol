@@ -11,11 +11,16 @@ import "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/Agg
 /// @dev All stablecoin prices are scaled to 6 decimals
 contract UsdcUsdtPay is IUsdcUsdtPay{
     address public owner;
+    AggregatorV3Interface public nativeUsdFeed;
 
     /// @notice Initialize the contract with an owner address
     /// @param _owner Address of the contract owner
-    constructor(address _owner) {
+    /// @notice Initialize contract with owner and Chainlink native/USD feed
+    /// @param _owner Contract owner address
+    /// @param _nativeUsdFeed Address of Chainlink native/USD price feed
+    constructor(address _owner, AggregatorV3Interface _nativeUsdFeed) {
         owner = _owner;
+        nativeUsdFeed = _nativeUsdFeed;
     }
 
     /// @notice Calculate USDT cost for purchasing tokens
@@ -60,31 +65,27 @@ contract UsdcUsdtPay is IUsdcUsdtPay{
     /// @notice Calculate native currency cost using Chainlink price feed
     /// @param tokenAmount Raw token amount including decimals
     /// @param tokenDecimals Number of decimals the token uses
-    /// @param nativeCurrency Address of Chainlink price feed for native/USD pair
     /// @return Native currency amount needed (18 decimals)
-    function buyTokenNative(uint256 tokenAmount, uint256 tokenDecimals, address nativeCurrency) external pure returns(uint256){
+    function buyTokenNative(uint256 tokenAmount, uint256 tokenDecimals) external view returns(uint256){
         require(tokenAmount != 0, "Token Amount should not be zero");
 
-        address nativeUsdFeed = AggregatorV3Interface(nativeCurrency);
+        (uint80 roundId, int256 price, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound) = nativeUsdFeed.latestRoundData();
 
-        ( uint80 roundId,int256 price, uint256 updatedAt, uint80 answeredInRound ) = nativeUsdFeed.latestRoundData();
+        require(price != 0, "price cannot be zero");
+        require(answeredInRound >= roundId, "stale round");
 
-        require(price != 0, "price canot be zero");
-        require(answeredInRound >= roundId, " Not good ");
-
-        
         uint8 feedDecimals = nativeUsdFeed.decimals();
-        if (feedDecimals > 18) revert PublicSale__InvalidDecimals();
+        require(feedDecimals <= 18, "Invalid feed decimals");
 
         uint256 normalizedPrice;
         if (feedDecimals <= 18) {
             normalizedPrice = uint256(price) * (10 ** (18 - feedDecimals));
         } else {
-            // This shouldn't happen with the require above, but defensive programming
             normalizedPrice = uint256(price) / (10 ** (feedDecimals - 18));
         }
 
-        if (normalizedPrice == 0) revert PublicSale__PriceInvalid();
+        require(normalizedPrice != 0, "Invalid normalized price");
+
         return (tokenAmount * 1e18) / normalizedPrice;
     }
 
