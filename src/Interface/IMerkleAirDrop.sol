@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-interface MerkleAirDrop{
-
+interface IMerkleAirDrop {
     /* -------------------------------------------------------------------------- */
     /*                               VIEW FUNCTIONS                               */
     /* -------------------------------------------------------------------------- */
 
-    
     /// @notice Check whether a user is blacklisted
     /// @param user address to check
     function isBlackListed(address user) external view returns (bool);

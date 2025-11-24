@@ -4,14 +4,10 @@ pragma solidity ^0.8.20;
 /// @title ILinearVesting
 /// @notice Interface for linear time-based vesting contracts
 interface ILinearVesting {
-
     /* -------------------------------------------------------------------------- */
     /*                                   EVENTS                                   */
     /* -------------------------------------------------------------------------- */
 
-    /// @notice Emitted when tokens are claimed via linear vesting
-    /// @param amount Number of tokens released in this claim
-    event VestingAmount(uint256 amount);
 
 
     /* -------------------------------------------------------------------------- */
@@ -32,7 +28,6 @@ interface ILinearVesting {
 
     /// @notice Vesting duration (in seconds)
     function duration() external view returns (uint256);
-
 
     /* -------------------------------------------------------------------------- */
     /*                              VESTING FUNCTION                               */

@@ -5,14 +5,6 @@ pragma solidity ^0.8.20;
 /// @notice Interface for step-based time vesting
 interface ITimeVesting {
 
-    /* -------------------------------------------------------------------------- */
-    /*                                   EVENTS                                   */
-    /* -------------------------------------------------------------------------- */
-
-    /// @notice Emitted when tokens are claimed via a vesting function
-    /// @param amount Number of tokens marked as released in this action
-    event VestingAmount(uint256 amount);
-
 
     /* -------------------------------------------------------------------------- */
     /*                                VIEW FUNCTIONS                               */
@@ -35,7 +27,6 @@ interface ITimeVesting {
 
     /// @notice Total number of vesting steps
     function stepCount() external view returns (uint256);
-
 
     /* -------------------------------------------------------------------------- */
     /*                             VESTING FUNCTIONS                               */

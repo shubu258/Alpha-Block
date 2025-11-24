@@ -5,17 +5,15 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 import "../Interface/IMerkleAirDrop.sol";
 
-
 /// @title MerkleAirDrop
 /// @notice Distributes ERC20 tokens using Merkle tree proofs for gas-efficient claims
 /// @dev Users prove eligibility with Merkle proofs; prevents double claims
-contract MerkleAirDropV1 is IMerkleAirDrop {
+contract MerkleAirDrop is IMerkleAirDrop {
     IERC20 public token;
     bytes32 public merkleRoot;
 
     event BlackListed(address user);
     event UnBlacklisted(address user);
-
 
     mapping(address => bool) public claimed;
     mapping(address => bool) public isBlackListed;
@@ -46,7 +44,7 @@ contract MerkleAirDropV1 is IMerkleAirDrop {
 
     /// @notice Remove an address from the blacklist
     /// @param user Address to unblacklist
-    function removeBlacklist(address user) external onlyOwner { 
+    function removeBlacklist(address user) external onlyOwner {
         require(isBlackListed[user], "User is not blacklisted");
         isBlackListed[user] = false;
         emit UnBlacklisted(user);

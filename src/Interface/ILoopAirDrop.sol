@@ -2,12 +2,10 @@
 pragma solidity ^0.8.18;
 
 interface ILoopAirDrop {
-
     /* -------------------------------------------------------------------------- */
     /*                               VIEW FUNCTIONS                               */
     /* -------------------------------------------------------------------------- */
 
-    
     /// @notice Check whether a user is blacklisted
     /// @param user address to check
     function isBlackListed(address user) external view returns (bool);
@@ -24,7 +22,6 @@ interface ILoopAirDrop {
     /// @param user address to unblacklist
     function removeBlacklist(address user) external;
 
-
     /* -------------------------------------------------------------------------- */
     /*                             AIRDROP FUNCTIONS                              */
     /* -------------------------------------------------------------------------- */
@@ -38,6 +35,4 @@ interface ILoopAirDrop {
     /// @param recipients list of addresses
     /// @param amounts matching amounts for each address
     function airDropFrom(address[] calldata recipients, uint256[] calldata amounts) external;
-
-    
 }

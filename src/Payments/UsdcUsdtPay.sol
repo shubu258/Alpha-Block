@@ -4,12 +4,11 @@ pragma solidity ^0.8.18;
 import "src/Interface/IUsdcUsdtPay.sol";
 import "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
-
 /// @title UsdcUsdtPay
 /// @notice Calculates token purchase amounts in USDT, USDC, or native currency
 /// @dev Uses Chainlink price feeds for native currency pricing
 /// @dev All stablecoin prices are scaled to 6 decimals
-contract UsdcUsdtPay is IUsdcUsdtPay{
+abstract contract UsdcUsdtPay is IUsdcUsdtPay {
     address public owner;
     AggregatorV3Interface public nativeUsdFeed;
 
@@ -29,17 +28,15 @@ contract UsdcUsdtPay is IUsdcUsdtPay{
     /// @param tokenPriceUsdt Token price in USDT scaled to 6 decimals
     /// @return USD value in USDT's 6 decimals
     function buyFromUsdt(
-        uint256 tokenAmount,          // raw units including decimals
-        uint256 tokenDecimals,        // e.g. 18 or 6
-        uint256 tokenPriceUsdt        // price scaled to 6 decimals
+        uint256 tokenAmount, // raw units including decimals
+        uint256 tokenDecimals, // e.g. 18 or 6
+        uint256 tokenPriceUsdt // price scaled to 6 decimals
     ) external pure returns (uint256) {
-
         require(tokenAmount > 0, "tokenAmount cannot be zero");
 
-        uint256 usdValue =
-            (tokenAmount * tokenPriceUsdt) / (10 ** tokenDecimals);
+        uint256 usdValue = (tokenAmount * tokenPriceUsdt) / (10 ** tokenDecimals);
 
-        return usdValue;  // returns in USDT's 6 decimals
+        return usdValue; // returns in USDT's 6 decimals
     }
 
     /// @notice Calculate USDC cost for purchasing tokens
@@ -50,26 +47,24 @@ contract UsdcUsdtPay is IUsdcUsdtPay{
     function buyFromUsdc(
         uint256 tokenAmount,
         uint256 tokenDecimals,
-        uint256 tokenPriceUsdc       // price scaled to 6 decimals
+        uint256 tokenPriceUsdc // price scaled to 6 decimals
     ) external pure returns (uint256) {
-
         require(tokenAmount > 0, "tokenAmount cannot be zero");
 
-        uint256 usdValue =
-            (tokenAmount * tokenPriceUsdc) / (10 ** tokenDecimals);
+        uint256 usdValue = (tokenAmount * tokenPriceUsdc) / (10 ** tokenDecimals);
 
-        return usdValue;  // returns in USDC's 6 decimals
+        return usdValue; // returns in USDC's 6 decimals
     }
-
 
     /// @notice Calculate native currency cost using Chainlink price feed
     /// @param tokenAmount Raw token amount including decimals
     /// @param tokenDecimals Number of decimals the token uses
     /// @return Native currency amount needed (18 decimals)
-    function buyTokenNative(uint256 tokenAmount, uint256 tokenDecimals) external view returns(uint256){
+    function buyTokenNative(uint256 tokenAmount, uint256 tokenDecimals) external view returns (uint256) {
         require(tokenAmount != 0, "Token Amount should not be zero");
 
-        (uint80 roundId, int256 price, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound) = nativeUsdFeed.latestRoundData();
+        (uint80 roundId, int256 price, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound) =
+            nativeUsdFeed.latestRoundData();
 
         require(price != 0, "price cannot be zero");
         require(answeredInRound >= roundId, "stale round");
@@ -88,8 +83,4 @@ contract UsdcUsdtPay is IUsdcUsdtPay{
 
         return (tokenAmount * 1e18) / normalizedPrice;
     }
-
-    
-
 }
-   

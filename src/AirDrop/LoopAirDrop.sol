@@ -15,27 +15,28 @@ contract LoopAirDrop is ILoopAirDrop {
     /// @param receiver Address receiving the airdrop
     /// @param amount Number of tokens transferred
     event AirDrop(address indexed receiver, uint256 amount);
-    
+
     /// @notice Emitted when an address is added to the blacklist
     /// @param user Address that was blacklisted
     event BlackListed(address user);
-    
+
     /// @notice Emitted when an address is removed from the blacklist
     /// @param user Address that was unblacklisted
     event UnBlacklisted(address user);
 
     mapping(address => bool) public isBlackListed;
-    
-    address public owner; 
+
+    address public owner;
     /// @notice Initialize the airdrop contract with a token
     /// @param _token ERC20 token contract address to distribute
+
     constructor(IERC20 _token) {
         token = _token;
         owner = msg.sender;
     }
 
-    modifier onlyOwner(){
-        require(msg.sender == owner,"Mag.sender is not the owner");
+    modifier onlyOwner() {
+        require(msg.sender == owner, "msg.sender is not the owner");
         _;
     }
 
@@ -46,10 +47,11 @@ contract LoopAirDrop is ILoopAirDrop {
         isBlackListed[user] = true;
         emit BlackListed(user);
     }
+    
 
     /// @notice Remove an address from the blacklist
     /// @param user Address to unblacklist
-    function removeBlacklist(address user) external onlyOwner { 
+    function removeBlacklist(address user) external onlyOwner {
         require(isBlackListed[user], "User is not blacklisted");
         isBlackListed[user] = false;
         emit UnBlacklisted(user);

@@ -7,7 +7,7 @@ import "src/Interface/ITimeVesting.sol";
 /// @notice Implements multiple vesting strategies (linear, cliff, step, event-based)
 /// @dev Store-only contract for vesting parameters and release accounting; call claim
 /// @dev functions to compute and record claimable amounts. Times in seconds.
-contract TimeVesting is ITimeVesting{
+abstract contract TimeVesting is ITimeVesting {
     /// @notice Types of supported vesting schedules
     /// @dev Use these to select which claim function to call
 

@@ -3,16 +3,7 @@ pragma solidity ^0.8.20;
 
 /// @title IVestingCliff
 /// @notice Interface for cliff + linear vesting schedule
-interface IVestingCliff {
-
-    /* -------------------------------------------------------------------------- */
-    /*                                   EVENTS                                   */
-    /* -------------------------------------------------------------------------- */
-
-    /// @notice Emitted when tokens are claimed via cliff vesting
-    /// @param amount Number of tokens released in this claim
-    event VestingAmount(uint256 amount);
-
+interface ICliffTypeVesting {
 
     /* -------------------------------------------------------------------------- */
     /*                                VIEW FUNCTIONS                               */
@@ -35,7 +26,6 @@ interface IVestingCliff {
 
     /// @notice Cliff duration in seconds
     function cliffMonth() external view returns (uint256);
-
 
     /* -------------------------------------------------------------------------- */
     /*                              VESTING FUNCTION                               */
