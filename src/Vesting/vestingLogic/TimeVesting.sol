@@ -7,19 +7,19 @@ import "src/Interface/ITimeVesting.sol";
 /// @notice Implements multiple vesting strategies (linear, cliff, step, event-based)
 /// @dev Store-only contract for vesting parameters and release accounting; call claim
 /// @dev functions to compute and record claimable amounts. Times in seconds.
-abstract contract TimeVesting is ITimeVesting {
+contract TimeVesting is ITimeVesting {
     /// @notice Types of supported vesting schedules
     /// @dev Use these to select which claim function to call
 
-    address beneficiary;
-    uint256 totalTokens;
-    uint256 startTime;
+    address public beneficiary;
+    uint256 public totalTokens;
+    uint256 public startTime;
 
-    uint256 releasedTokens;
+    uint256 public releasedTokens;
 
     // step vesting
-    uint256 stepTime;
-    uint256 stepCount;
+    uint256 public stepTime;
+    uint256 public stepCount;
 
     /// @notice Emitted when tokens are claimed via a vesting function
     /// @param amount Number of tokens marked as released in this action

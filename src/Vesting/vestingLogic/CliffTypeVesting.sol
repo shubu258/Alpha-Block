@@ -7,16 +7,16 @@ import "src/Interface/ICliffTypeVesting.sol";
 /// @notice Implements multiple vesting strategies (linear, cliff, step, event-based)
 /// @dev Store-only contract for vesting parameters and release accounting; call claim
 /// @dev functions to compute and record claimable amounts. Times in seconds.
-abstract contract CliffTypeVesting is ICliffTypeVesting {
-    address beneficiary;
-    uint256 totalTokens;
-    uint256 vestingTime;
-    uint256 startTime;
+contract CliffTypeVesting is ICliffTypeVesting {
+    address public beneficiary;
+    uint256 public totalTokens;
+    uint256 public vestingTime;
+    uint256 public startTime;
 
-    uint256 releasedTokens;
+    uint256 public releasedTokens;
 
     // vesting + cliff    
-    uint256 cliffMonth;
+    uint256 public cliffMonth;
 
     /// @notice Emitted when tokens are claimed via a vesting function
     /// @param amount Number of tokens marked as released in this action

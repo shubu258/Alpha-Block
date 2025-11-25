@@ -7,16 +7,16 @@ import "src/Interface/ILinearVesting.sol";
 /// @notice Implements multiple vesting strategies (linear, cliff, step, event-based)
 /// @dev Store-only contract for vesting parameters and release accounting; call claim
 /// @dev functions to compute and record claimable amounts. Times in seconds.
-abstract contract LinearVesting is ILinearVesting {
+contract LinearVesting is ILinearVesting {
     /// @notice Types of supported vesting schedules
     /// @dev Use these to select which claim function to call
 
-    address beneficiary;
-    uint256 totalTokens;
-    uint256 startTime;
+    address public beneficiary;
+    uint256 public totalTokens;
+    uint256 public startTime;
 
-    uint256 releasedTokens;
-    uint256 duration;
+    uint256 public releasedTokens;
+    uint256 public duration;
 
     /// @notice Emitted when tokens are claimed via a vesting function
     /// @param amount Number of tokens marked as released in this action
